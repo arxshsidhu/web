@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sleep Calculator</h1>
+    <div class="form-group">
+        <label for="bedtime">Bedtime:</label>
+        <input type="time" id="bedtime" required>
+    </div>
+    <div class="form-group">
+        <label for="wakeuptime">Wake-up Time:</label>
+        <input type="time" id="wakeuptime" required>
+    </div>
+    <button onclick="calculateSleep()">Calculate Sleep Duration</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculateSleep() {
+        const bedtime = document.getElementById('bedtime').value;
+        const wakeuptime = document.getElementById('wakeuptime').value;
+
+        if (!bedtime || !wakeuptime) {
+            alert('Please enter both bedtime and wake-up time.');
+            return;
+        }
+
+        const bedtimeDate = new Date('1970-01-01T' + bedtime + 'Z');
+        const wakeuptimeDate = new Date('1970-01-01T' + wakeuptime + 'Z');
+
+        if (wakeuptimeDate <= bedtimeDate) {
+            wakeuptimeDate.setDate(wakeuptimeDate.getDate() + 1);
+        }
+
+        const sleepDurationMs = wakeuptimeDate - bedtimeDate;
+        const sleepDurationHours = Math.floor(sleepDurationMs / (1000 * 60 * 60));
+        const sleepDurationMinutes = Math.floor((sleepDurationMs % (1000 * 60 * 60)) / (1000 * 60));
+
+        document.getElementById('result').innerText = `You slept for ${sleepDurationHours} hours and ${sleepDurationMinutes} minutes.`;
+    }
+</script>
+
+</body>
+</html>
